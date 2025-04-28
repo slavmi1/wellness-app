@@ -2,12 +2,9 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import RegistrationSign from './Registration_sign';
-import RegistrationLog from './Registration_log';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+// import {createNativeStackNavigator} from '@react-navigation/native-stack'; // надо бы удалить эту библиотеку
 
 SplashScreen.preventAutoHideAsync();
-
-const Stack = createNativeStackNavigator();
 
 const index = () => {
   const [loaded, error] = useFonts({
