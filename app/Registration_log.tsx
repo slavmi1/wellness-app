@@ -2,11 +2,14 @@ import React, { useEffect } from 'react';
 import { regStyles, logInStyles } from '@/styles/styles';
 import { setNavigationBarColor } from './utils/navigationBar';
 import { ImageBackground, Pressable, StatusBar, Text, TextInput, View } from 'react-native';
+import { useRouter } from 'expo-router';
 
 export default function RegistrationLog() {
     useEffect(() => {
             setNavigationBarColor('#E1E1E1');
         });
+        
+    const router = useRouter();
         return (
             <ImageBackground 
                 source={require('../assets/images/Registration/sign_background.jpg')} 
@@ -38,11 +41,11 @@ export default function RegistrationLog() {
                         </Pressable>
                     </View>
                     <Pressable 
-                        onPress={() => console.log('Регистрация.')}
+                        onPress={() => router.navigate('/Menu')}
                         style={regStyles.signButton}
                     >
                         {({ pressed }) => (
-                            <Text style={[regStyles.text, { opacity: pressed ? 0.8 : 1 }]}>Log in</Text>
+                            <Text style={[regStyles.text, { opacity: pressed ? 0.8 : 1 }]}>Log in</Text> // просто переход на главную
                         )}
                     </Pressable>
                 </View>

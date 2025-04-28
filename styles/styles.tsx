@@ -35,6 +35,9 @@ export const regStyles = StyleSheet.create({
         fontFamily: 'Ubuntu-Bold',
         fontSize: 22
     },
+    birthInput: {
+        width: '100%'
+    },
     signButton: {
         alignSelf: 'center',
         justifyContent: 'center',
@@ -89,9 +92,10 @@ export const menuStyles = StyleSheet.create({
         borderColor: '#54AB57'
     },
     tinyLogo: {
-        marginTop: 10,
         width: 68,
-        height: 20
+        height: 20,
+        marginTop: 10,
+        marginBottom: 5
     },
     headerTables: {
         width: '100%',
@@ -138,12 +142,14 @@ export const menuStyles = StyleSheet.create({
     },
     body: {
         flex: 4.5,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        position: 'relative' // для позиционирования аватара
     },
     bodyButtons: {
         flexDirection: 'row',
         padding: 14,
-        justifyContent: 'space-between',
+        paddingBottom: 0,
+        justifyContent: 'space-between'
     },
     settingsButton: {
         width: 69,
@@ -159,7 +165,7 @@ export const menuStyles = StyleSheet.create({
         height: 39
     },
     bodyButtonsRight: {
-        flexDirection: 'row',
+        flexDirection: 'row'
     },
     shopButton: {
         width: 87,
@@ -182,18 +188,77 @@ export const menuStyles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 5,
         borderColor: '#E3E3E3',
-        borderRadius: 25,
-        marginRight: 21
+        borderRadius: 25
     },
     clothesIcon: {
         width: 52,
         height: 41
     },
     bodyBackground: {
-        
+        width: '100%',
+        height: 403.33,
+        alignItems: 'center',
+        position: 'relative'
+    },
+    avatar: {
+        width: 245.8,
+        height: 440,
+        position: 'absolute',
+        bottom: -60,
     },
     footer: {
         flex: 1,
-        backgroundColor: '#6EDB71'
+        justifyContent: 'center',
+        backgroundColor: '#6EDB71',
+        borderTopWidth: 3,
+        borderColor: '#54AB57'
+    },
+    footerButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
+    footerButton: {
+        width: 80,
+        height: 80,
+        borderWidth: 5,
+        borderRadius: 20,
+        backgroundColor: '#fff',
+        borderColor: '#5FBB62',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    statsContainer: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        height: 45
+    },
+    statsIcon1: {
+        width: 10,
+        height: 25, 
+        marginRight: 5
+    },
+    statsIcon2: {
+        width: 10,
+        height: 35,
+    },
+    statsIcon3: {
+        width: 10,
+        height: 45
+    },
+    ratingIcon: {
+        width: 40,
+        height: 54
+    },
+    achievementsIcon: {
+        width: 50,
+        height: 40
+    },
+    footerText: {
+        fontFamily: 'Ubuntu-Bold',
+        fontSize: 20,
+        color: '#fff',
+        textAlign: 'center',
+        lineHeight: 20
     }
 });

@@ -1,15 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const RatingScreen = () => {
+const AchievementsScreen = () => {
   return (
     <View style={styles.container}>
-        <Text style={styles.text}>Тут будет рейтинг!</Text>
+        <Text style={styles.text}>Тут будут достижения!</Text>
     </View>
   );
 };
 
-export default RatingScreen;
+export default AchievementsScreen;
 
 const styles = StyleSheet.create({
     container: {
