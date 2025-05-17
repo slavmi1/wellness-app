@@ -79,6 +79,7 @@ const RegistrationSign = () => {
                         placeholder='Repeat your password' 
                         placeholderTextColor={'#E3E3E3'} 
                         style={regStyles.input}
+                        secureTextEntry={true}
                     />
                     <Pressable 
                         onPress={() => router.navigate('/Menu')}
