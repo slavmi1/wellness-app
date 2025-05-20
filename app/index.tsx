@@ -1,8 +1,8 @@
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import RegistrationSign from './Registration_sign';
-// import {createNativeStackNavigator} from '@react-navigation/native-stack'; // надо бы удалить эту библиотеку
+import RegistrationSign from './SignUp';
+import { LanguageProvider } from './utils/LanguageContext';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -22,7 +22,9 @@ const index = () => {
   }
 
   return (
-    <RegistrationSign/>
+    <LanguageProvider>
+        <RegistrationSign/>
+    </LanguageProvider>
   );
 };
 

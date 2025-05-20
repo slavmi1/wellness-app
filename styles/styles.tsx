@@ -8,16 +8,16 @@ export const regStyles = StyleSheet.create({
     container: {
         flex: 1,
         position: 'absolute',
-        top: '32.7%',
+        top: '32%',
         width: '85%',
         justifyContent: 'space-around',
         alignItems: 'center'
     },
     text: {
         fontFamily: 'Ubuntu-Bold',
-        fontSize: 30,
+        fontSize: 28,
         color: '#fff',
-        lineHeight: 30,
+        lineHeight: 28,
         textAlign: 'center'
     },
     input: {
@@ -41,10 +41,10 @@ export const regStyles = StyleSheet.create({
     signButton: {
         alignSelf: 'center',
         justifyContent: 'center',
-        width: 126,
-        height: 70,
         marginTop: 5,
         marginBottom: 10,
+        paddingVertical: 18,
+        paddingHorizontal: 26,
         borderRadius: 20,
         backgroundColor: '#5FBB62'
     },
@@ -158,14 +158,12 @@ export const menuStyles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 5,
         borderColor: '#E3E3E3',
-        borderRadius: 25
+        borderRadius: 25,
+        marginLeft: 14
     },
     settingsIcon: {
         width: 39,
         height: 39
-    },
-    bodyButtonsRight: {
-        flexDirection: 'row'
     },
     shopButton: {
         width: 87,
@@ -175,23 +173,10 @@ export const menuStyles = StyleSheet.create({
         borderWidth: 5,
         borderColor: '#E3E3E3',
         borderRadius: 25,
-        marginRight: 17
+        marginRight: 14
     },
     shopIcon: {
         width: 54,
-        height: 41
-    },
-    clothesButton: {
-        width: 87,
-        height: 69,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 5,
-        borderColor: '#E3E3E3',
-        borderRadius: 25
-    },
-    clothesIcon: {
-        width: 52,
         height: 41
     },
     bodyBackground: {
@@ -208,15 +193,27 @@ export const menuStyles = StyleSheet.create({
     },
     footer: {
         flex: 1,
-        justifyContent: 'center',
         backgroundColor: '#6EDB71',
         borderTopWidth: 3,
-        borderColor: '#54AB57'
+        borderColor: '#54AB57',
+        paddingTop: 10,
+        paddingBottom: 15,
     },
-    footerButtons: {
+    footerContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
+        height: '100%',
+    },
+    buttonGroup: {
+        flex: 1,
+        maxWidth: '33%',
         alignItems: 'center',
+    },
+    buttonContent: {
+        height: '100%',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingBottom: 5,
     },
     footerButton: {
         width: 80,
@@ -227,38 +224,131 @@ export const menuStyles = StyleSheet.create({
         borderColor: '#5FBB62',
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 0,
     },
     statsContainer: {
         flexDirection: 'row',
         alignItems: 'flex-end',
-        height: 45
+        height: 45,
+        justifyContent: 'center',
     },
     statsIcon1: {
         width: 10,
-        height: 25, 
-        marginRight: 5
+        height: 25,
+        marginRight: 5,
     },
     statsIcon2: {
         width: 10,
         height: 35,
+        marginRight: 5,
     },
     statsIcon3: {
         width: 10,
-        height: 45
+        height: 45,
     },
     ratingIcon: {
         width: 40,
-        height: 54
+        height: 54,
     },
     achievementsIcon: {
         width: 50,
-        height: 40
+        height: 40,
     },
     footerText: {
         fontFamily: 'Ubuntu-Bold',
         fontSize: 20,
         color: '#fff',
         textAlign: 'center',
-        lineHeight: 20
+        width: '100%',
+        paddingHorizontal: 5,
+        position: 'absolute',
+        bottom: 0,
+    },
+});
+
+export const statsStyles = StyleSheet.create({
+    topHalf: {
+        flex: 1,
+        backgroundColor: '#fff'
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        margin: 20,
+        marginBottom: 0
+    },
+    backButton: {
+        width: 30,
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    backIcon: {
+        width: 22,
+        height: 32
+    },
+    headerText: {
+        fontFamily: 'Ubuntu-Bold',
+        fontSize: 18,
+        lineHeight: 18,
+        color: '#535353'
+    },
+    dropdown: {
+        width: 137,
+        height: 46,
+        borderColor: '#E3E3E3',
+        borderWidth: 5,
+        borderRadius: 25,
+        paddingHorizontal: 8,
+    },
+    arrow_down: {
+        width: 27,
+        height: 18,
+    },
+    itemContainer: {
+        padding: 0,
+        margin: 0,
+    },
+    dropdownListContainer: {
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        marginTop: 5,
+        paddingVertical: 0,
+        overflow: 'hidden',
+    },
+      listContentContainer: {
+        padding: 0,
+    },
+    chartContainer: {
+        flex: 1
+    },
+    scrollContent: {
+        flexGrow: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 20,
+    },
+    chart: {
+        marginTop: 20,
+    },
+    bottomHalf: {
+        flex: 1,
+        backgroundColor: '#6EDB71',
+        borderWidth: 3,
+        borderBottomWidth: 0,
+        borderColor: '#54AB57',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    statsText: {
+        fontFamily: 'Ubuntu-Bold',
+        fontSize: 30,
+        lineHeight: 35,
+        letterSpacing: 0,
+        color: '#fff'
+    },
+    statsItem: {
+        marginBottom: 25,
     }
 });

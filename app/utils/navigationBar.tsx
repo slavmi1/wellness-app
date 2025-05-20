@@ -1,9 +1,8 @@
 import { Platform } from 'react-native';
 import * as NavigationBar from 'expo-navigation-bar';
 
-/**
- * Проверяет, является ли цвет тёмным (для выбора стиля иконок)
- */
+
+// Проверяет, является ли цвет тёмным (для выбора стиля иконок)
 const isDarkColor = (color: string): boolean => {
   if (!color || typeof color !== 'string') return false;
 
@@ -18,9 +17,8 @@ const isDarkColor = (color: string): boolean => {
   return brightness < 0.5;
 };
 
-/**
- * Меняет цвет панели навигации (Android) и адаптирует интерфейс (iOS)
- */
+
+// Меняет цвет панели навигации (Android) и адаптирует интерфейс (iOS)
 export const setNavigationBarColor = async (color: string) => {
   if (Platform.OS === 'android') {
     try {
