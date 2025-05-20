@@ -17,15 +17,15 @@ export default function Menu(){
         <View style={menuStyles.menu}>
             <StatusBar backgroundColor={'#E1E1E1'}/>
             <View style={menuStyles.header}>
-                <Image style ={menuStyles.tinyLogo} source={require('../assets/images/Main/tiny_logo.png')}/>
+                <Image style ={menuStyles.tinyLogo} source={require('../assets/images/Menu/tiny_logo.png')}/>
                 <View style={menuStyles.headerTables}>
                     <View style={ menuStyles.lvlTable}>
-                        <Image style={menuStyles.lvlIcon} source={require('../assets/images/Main/lvl_icon.png')}/>
+                        <Image style={menuStyles.lvlIcon} source={require('../assets/images/Menu/lvl_icon.png')}/>
                         <Text style={menuStyles.headerText}>13 LVL</Text>
                     </View>
                     <View style={ menuStyles.coinsTable}>
                         <Text style={menuStyles.headerText}>99999</Text>
-                        <Image style={menuStyles.coinIcon} source={require('../assets/images/Main/coin_icon.png')}/>
+                        <Image style={menuStyles.coinIcon} source={require('../assets/images/Menu/coin_icon.png')}/>
                     </View>
                 </View>
             </View>
@@ -37,7 +37,7 @@ export default function Menu(){
                         >
                         {({ pressed }) => (
                             <Image
-                                source={require('../assets/images/Main/settings_icon.png')}
+                                source={require('../assets/images/Menu/settings_icon.png')}
                                 style={[menuStyles.settingsIcon, { opacity: pressed ? 0.8 : 1 }]}
                                 resizeMode="center"
                             />
@@ -49,18 +49,18 @@ export default function Menu(){
                         >
                         {({ pressed }) => (
                             <Image
-                                source={require('../assets/images/Main/shop_icon.png')}
+                                source={require('../assets/images/Menu/shop_icon.png')}
                                 style={[menuStyles.shopIcon, { opacity: pressed ? 0.8 : 1 }]}
                                 resizeMode="center"
                             />
                         )}
                     </Pressable>
                 </View>
-                <ImageBackground source={require('../assets/images/Main/body_background.png')}
+                <ImageBackground source={require('../assets/images/Menu/body_background.png')}
                     style={menuStyles.bodyBackground}
                     resizeMode='contain'
                 >
-                    <Image source={require('../assets/images/Main/avatar.png')} style={menuStyles.avatar}/>
+                    <Image source={require('../assets/images/Menu/avatar.png')} style={menuStyles.avatar}/>
                 </ImageBackground>
             </View>
             <View style={menuStyles.footer}>
@@ -77,15 +77,15 @@ export default function Menu(){
                             >
                                 <View style={menuStyles.statsContainer}>
                                     <Image 
-                                        source={require('../assets/images/Main/stats_1.png')} 
+                                        source={require('../assets/images/Menu/stats_1.png')} 
                                         style={menuStyles.statsIcon1}
                                     />
                                     <Image 
-                                        source={require('../assets/images/Main/stats_2.png')} 
+                                        source={require('../assets/images/Menu/stats_2.png')} 
                                         style={menuStyles.statsIcon2}
                                     />
                                     <Image 
-                                        source={require('../assets/images/Main/stats_3.png')} 
+                                        source={require('../assets/images/Menu/stats_3.png')} 
                                         style={menuStyles.statsIcon3}
                                     />
                                 </View>
@@ -112,7 +112,7 @@ export default function Menu(){
                             ]}
                             >
                                 <Image 
-                                    source={require('../assets/images/Main/rating_icon.png')} 
+                                    source={require('../assets/images/Menu/rating_icon.png')} 
                                     style={menuStyles.ratingIcon}
                                 />
                             </Pressable>
@@ -138,7 +138,7 @@ export default function Menu(){
                                 ]}
                             >
                             <Image 
-                                source={require('../assets/images/Main/achievements_icon.png')} 
+                                source={require('../assets/images/Menu/achievements_icon.png')} 
                                 style={menuStyles.achievementsIcon}
                             />
                             </Pressable>
