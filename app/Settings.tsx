@@ -1,13 +1,17 @@
 import { Image, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import * as SystemUI from 'expo-system-ui';
 import { useRouter } from "expo-router";
 import { useLanguage } from './utils/LanguageContext';
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { setNavigationBarColor } from "./utils/navigationBar";
 
-SystemUI.setBackgroundColorAsync('#E1E1E1');
+export default function SettingsScreen(){
+  useEffect(() => {
+      setNavigationBarColor('#E1E1E1');
+  });
 
-const SettingsScreen = () => {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const { t, toggleLanguage, language } = useLanguage();
   const [distanceUnit, setDistanceUnit] = useState<'km' | 'm'>('km');
 
@@ -21,7 +25,7 @@ const SettingsScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {paddingTop: insets.top, paddingBottom: insets.bottom}]}>
       <StatusBar backgroundColor={'#E1E1E1'}/>
       <Pressable
         onPress={() => router.back()}
@@ -154,5 +158,3 @@ const styles = StyleSheet.create({
     color: '#535353'
   }
 });
-
-export default SettingsScreen;

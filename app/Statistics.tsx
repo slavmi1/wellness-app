@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StatusBar, Image, Pressable, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StatusBar, Image, Pressable, ScrollView, Dimensions, StyleSheet } from 'react-native';
 import { setNavigationBarColor } from './utils/navigationBar';
-import { statsStyles } from '@/styles/styles';
-import * as SystemUI from 'expo-system-ui';
 import { useRouter } from 'expo-router';
 import { Dropdown } from 'react-native-element-dropdown';
 import { BarChart } from 'react-native-chart-kit';
 import { useLanguage } from './utils/LanguageContext';
-
-SystemUI.setBackgroundColorAsync('#E1E1E1');
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface RunStats {
   dateRange: string;
@@ -34,6 +31,7 @@ const StatsScreen = () => {
   });
 
   const screenWidth = Dimensions.get('window').width;
+  const insets = useSafeAreaInsets();
 
   // Локализованные данные для графиков
   const dataSets = {
@@ -135,26 +133,26 @@ const StatsScreen = () => {
   }, []);
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom}}>
       <StatusBar backgroundColor={'#E1E1E1'}/>
-      <View style={statsStyles.topHalf}>
-        <View style={statsStyles.header}>
+      <View style={styles.topHalf}>
+        <View style={styles.header}>
           <Pressable
             onPress={() => router.back()}
-            style={statsStyles.backButton}
+            style={styles.backButton}
           >
             {({ pressed }) => (
               <Image
                 source={require('../assets/images/back_button.png')}
-                style={[statsStyles.backIcon, {opacity: pressed ? 0.8 : 1}]}
+                style={[styles.backIcon, {opacity: pressed ? 0.8 : 1}]}
               />
             )}
           </Pressable>
-          <Text style={statsStyles.headerText}>{t('sort_by')}</Text>
+          <Text style={styles.headerText}>{t('sort_by')}</Text>
           <View>
             <Dropdown
-              style={[statsStyles.dropdown, isFocus && { borderColor: '#54AB57' }]}
-              selectedTextStyle={statsStyles.headerText}
+              style={[styles.dropdown, isFocus && { borderColor: '#54AB57' }]}
+              selectedTextStyle={styles.headerText}
               data={data}
               maxHeight={300}
               labelField="label"
@@ -166,25 +164,25 @@ const StatsScreen = () => {
               renderRightIcon={() => (
                 <Image 
                   source={require('../assets/images/Stats/arrow_down.png')} 
-                  style={[statsStyles.arrow_down, isFocus && { transform: [{ rotate: '180deg' }] }]}
+                  style={[styles.arrow_down, isFocus && { transform: [{ rotate: '180deg' }] }]}
                 />
               )}
-              itemTextStyle={statsStyles.headerText}
+              itemTextStyle={styles.headerText}
               activeColor='#E3E3E3'
-              containerStyle={statsStyles.dropdownListContainer}
-              itemContainerStyle={statsStyles.itemContainer}
+              containerStyle={styles.dropdownListContainer}
+              itemContainerStyle={styles.itemContainer}
               flatListProps={{
-                contentContainerStyle: statsStyles.listContentContainer
+                contentContainerStyle: styles.listContentContainer
               }}
             />
           </View>
         </View>
-        <View style={statsStyles.chartContainer}>
+        <View style={styles.chartContainer}>
           <ScrollView 
             horizontal
             showsHorizontalScrollIndicator={true}
             style={{height: 250}}
-            contentContainerStyle={statsStyles.scrollContent}
+            contentContainerStyle={styles.scrollContent}
           >
             <BarChart
               data={chartData}
@@ -196,12 +194,12 @@ const StatsScreen = () => {
               segments={6}
               yAxisLabel=""
               yAxisSuffix=""
-              style={statsStyles.chart}
+              style={styles.chart}
             />
           </ScrollView>
         </View>
       </View>
-      <View style={statsStyles.bottomHalf}>
+      <View style={styles.bottomHalf}>
         <StatsDisplay data={statsData} />
       </View>
     </View>
@@ -214,23 +212,110 @@ const StatsDisplay = ({ data }: { data: RunStats }) => {
   
   return (
     <View>
-      <View style={statsStyles.statsItem}>
-        <Text style={statsStyles.statsText}>{t('date')}</Text>
-        <Text style={statsStyles.statsText}>{data.dateRange}</Text>
+      <View style={styles.statsItem}>
+        <Text style={styles.statsText}>{t('date')}</Text>
+        <Text style={styles.statsText}>{data.dateRange}</Text>
       </View>
       
-      <View style={statsStyles.statsItem}>
-        <Text style={statsStyles.statsText}>{t('total_distance')}</Text>
-        <Text style={statsStyles.statsText}>{data.totalDistance} {t('km')}</Text>
+      <View style={styles.statsItem}>
+        <Text style={styles.statsText}>{t('total_distance')}</Text>
+        <Text style={styles.statsText}>{data.totalDistance} {t('km')}</Text>
       </View>
       
       <View>
-        <Text style={statsStyles.statsText}>{t('best_distance')}</Text>
-        <Text style={statsStyles.statsText}>({data.bestDay})</Text>
-        <Text style={statsStyles.statsText}>{data.bestDistance} {t('km')}</Text>
+        <Text style={styles.statsText}>{t('best_distance')}</Text>
+        <Text style={styles.statsText}>({data.bestDay})</Text>
+        <Text style={styles.statsText}>{data.bestDistance} {t('km')}</Text>
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+    topHalf: {
+        flex: 1,
+        backgroundColor: '#fff'
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        margin: 20,
+        marginBottom: 0
+    },
+    backButton: {
+        width: 30,
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    backIcon: {
+        width: 22,
+        height: 32
+    },
+    headerText: {
+        fontFamily: 'Ubuntu-Bold',
+        fontSize: 18,
+        lineHeight: 18,
+        color: '#535353'
+    },
+    dropdown: {
+        width: 137,
+        height: 46,
+        borderColor: '#E3E3E3',
+        borderWidth: 5,
+        borderRadius: 25,
+        paddingHorizontal: 8,
+    },
+    arrow_down: {
+        width: 27,
+        height: 18,
+    },
+    itemContainer: {
+        padding: 0,
+        margin: 0,
+    },
+    dropdownListContainer: {
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        marginTop: 5,
+        paddingVertical: 0,
+        overflow: 'hidden',
+    },
+      listContentContainer: {
+        padding: 0,
+    },
+    chartContainer: {
+        flex: 1
+    },
+    scrollContent: {
+        flexGrow: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 20,
+    },
+    chart: {
+        marginTop: 20,
+    },
+    bottomHalf: {
+        flex: 1,
+        backgroundColor: '#6EDB71',
+        borderWidth: 3,
+        borderBottomWidth: 0,
+        borderColor: '#54AB57',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    statsText: {
+        fontFamily: 'Ubuntu-Bold',
+        fontSize: 30,
+        lineHeight: 35,
+        letterSpacing: 0,
+        color: '#fff'
+    },
+    statsItem: {
+        marginBottom: 25,
+    }
+})
 
 export default StatsScreen;
