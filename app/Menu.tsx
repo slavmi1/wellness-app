@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {Image, ImageBackground, Platform, Pressable, StatusBar, StyleSheet, Text, View } from "react-native";
+import { Image, ImageBackground, Platform, Pressable, StatusBar, StyleSheet, Text, View } from "react-native";
 import { setNavigationBarColor } from './utils/navigationBar';
 import { useRouter } from 'expo-router';
 import { useLanguage } from './utils/LanguageContext';
@@ -70,7 +70,7 @@ export default function Menu(){
                     <View style={styles.buttonGroup}>
                         <View style={styles.buttonContent}>
                             <Pressable
-                                onPress={() => router.navigate('/Statistics')}
+                                onPress={() => router.navigate('/Tracker')}
                                 style={({ pressed }) => [
                                     styles.footerButton,
                                     { opacity: pressed ? 0.8 : 1 }
