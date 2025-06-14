@@ -1,22 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Image, ImageBackground, Platform, Pressable, StatusBar, StyleSheet, Text, View } from "react-native";
-import { setNavigationBarColor } from './utils/navigationBar';
 import { useRouter } from 'expo-router';
-import { useLanguage } from './utils/LanguageContext';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useLanguage } from './contexts/LanguageContext';
+import { useCoins } from './contexts/CoinsContext';
 
 export default function Menu(){
-    useEffect(() => {
-        setNavigationBarColor('#E1E1E1');
-    });
-
     const router = useRouter();
     const { t } = useLanguage();
-    const insets = useSafeAreaInsets();
+    const { coins } = useCoins();
 
     return (
-        <View style={[styles.menu, {paddingTop: insets.top, paddingBottom: insets.bottom}]}>
-            <StatusBar backgroundColor={'#E1E1E1'}/>
+        <View style={styles.menu}>
             <View style={styles.header}>
                 <Image style ={styles.tinyLogo} source={require('../assets/images/Menu/tiny_logo.png')}/>
                 <View style={styles.headerTables}>
@@ -25,8 +19,8 @@ export default function Menu(){
                         <Text style={styles.headerText}>13 LVL</Text>
                     </View>
                     <View style={ styles.coinsTable}>
-                        <Text style={styles.headerText}>99999</Text>
-                        <Image style={styles.coinIcon} source={require('../assets/images/Menu/coin_icon.png')}/>
+                        <Text style={styles.headerText}>{coins}</Text>
+                        <Image style={styles.coinIcon} source={require('../assets/images/coin_icon.png')}/>
                     </View>
                 </View>
             </View>
@@ -61,7 +55,7 @@ export default function Menu(){
                     style={styles.bodyBackground}
                     resizeMode='contain'
                 >
-                    <Image source={require('../assets/images/Menu/avatar.png')} style={styles.avatar}/>
+                    <Image source={require('../assets/images/Clothes/avatar-with-eyes.png')} style={styles.avatar}/>
                 </ImageBackground>
             </View>
             <View style={styles.footer}>

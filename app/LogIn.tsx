@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { setNavigationBarColor } from './utils/navigationBar';
 import { ImageBackground, Pressable, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useLanguage } from './utils/LanguageContext';
+import { useLanguage } from './contexts/LanguageContext';
 
 export default function RegistrationLog() {
     const { t } = useLanguage();

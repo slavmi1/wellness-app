@@ -3,7 +3,6 @@ import { Image, StyleSheet, Text, View, TouchableOpacity, FlatList, StatusBar, P
 import { Accelerometer } from 'expo-sensors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Subscription } from 'expo-sensors/build/DeviceSensor';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 
 // Тип для данных акселерометра
@@ -23,7 +22,6 @@ type HistoryRecord = {
 };
 
 export default function PedometerApp() {
-  const insets = useSafeAreaInsets();
   const router = useRouter();
 
   const [isMeasuring, setIsMeasuring] = useState(false);
@@ -140,7 +138,7 @@ export default function PedometerApp() {
   };
 
   return (
-    <View style={[styles.container, {paddingTop: insets.top, paddingBottom: insets.bottom}]}>
+    <View style={styles.container}>
       <View style={styles.header}>
         <Pressable
           onPress={() => router.back()}
@@ -223,6 +221,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     padding: 20,
+    paddingBottom: 0,
+    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    marginBottom: Platform.OS === 'android' ? 24 : 0
   },
   header: {
     width: '100%',

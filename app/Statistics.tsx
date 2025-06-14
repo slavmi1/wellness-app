@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StatusBar, Image, Pressable, ScrollView, Dimensions, StyleSheet } from 'react-native';
-import { setNavigationBarColor } from './utils/navigationBar';
+import { View, Text, StatusBar, Image, Pressable, ScrollView, Dimensions, StyleSheet, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Dropdown } from 'react-native-element-dropdown';
 import { BarChart } from 'react-native-chart-kit';
-import { useLanguage } from './utils/LanguageContext';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useLanguage } from './contexts/LanguageContext';
 
 interface RunStats {
   dateRange: string;
@@ -15,10 +13,6 @@ interface RunStats {
 }
 
 const StatsScreen = () => {
-  useEffect(() => {
-    setNavigationBarColor('#E1E1E1');
-  }, []);
-
   const { t, getDayName, getMonthName } = useLanguage();
   const router = useRouter();
   const [value, setValue] = useState('week');
@@ -31,7 +25,6 @@ const StatsScreen = () => {
   });
 
   const screenWidth = Dimensions.get('window').width;
-  const insets = useSafeAreaInsets();
 
   // Локализованные данные для графиков
   const dataSets = {
@@ -133,8 +126,7 @@ const StatsScreen = () => {
   }, []);
 
   return (
-    <View style={{flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom}}>
-      <StatusBar backgroundColor={'#E1E1E1'}/>
+    <View style={styles.container}>
       <View style={styles.topHalf}>
         <View style={styles.header}>
           <Pressable
@@ -232,90 +224,96 @@ const StatsDisplay = ({ data }: { data: RunStats }) => {
 };
 
 const styles = StyleSheet.create({
-    topHalf: {
-        flex: 1,
-        backgroundColor: '#fff'
-    },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        margin: 20,
-        marginBottom: 0
-    },
-    backButton: {
-        width: 30,
-        height: 32,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    backIcon: {
-        width: 22,
-        height: 32
-    },
-    headerText: {
-        fontFamily: 'Ubuntu-Bold',
-        fontSize: 18,
-        lineHeight: 18,
-        color: '#535353'
-    },
-    dropdown: {
-        width: 137,
-        height: 46,
-        borderColor: '#E3E3E3',
-        borderWidth: 5,
-        borderRadius: 25,
-        paddingHorizontal: 8,
-    },
-    arrow_down: {
-        width: 27,
-        height: 18,
-    },
-    itemContainer: {
-        padding: 0,
-        margin: 0,
-    },
-    dropdownListContainer: {
-        backgroundColor: '#fff',
-        borderRadius: 12,
-        marginTop: 5,
-        paddingVertical: 0,
-        overflow: 'hidden',
-    },
-      listContentContainer: {
-        padding: 0,
-    },
-    chartContainer: {
-        flex: 1
-    },
-    scrollContent: {
-        flexGrow: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingVertical: 20,
-    },
-    chart: {
-        marginTop: 20,
-    },
-    bottomHalf: {
-        flex: 1,
-        backgroundColor: '#6EDB71',
-        borderWidth: 3,
-        borderBottomWidth: 0,
-        borderColor: '#54AB57',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    statsText: {
-        fontFamily: 'Ubuntu-Bold',
-        fontSize: 30,
-        lineHeight: 35,
-        letterSpacing: 0,
-        color: '#fff'
-    },
-    statsItem: {
-        marginBottom: 25,
-    }
+  container: {
+    flex: 1,
+    color: 'fff',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    paddingBottom: Platform.OS === 'android' ? 24 : 0
+  },
+  topHalf: {
+      flex: 1,
+      backgroundColor: '#fff'
+  },
+  header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      margin: 20,
+      marginBottom: 0
+  },
+  backButton: {
+      width: 30,
+      height: 32,
+      justifyContent: 'center',
+      alignItems: 'center'
+  },
+  backIcon: {
+      width: 22,
+      height: 32
+  },
+  headerText: {
+      fontFamily: 'Ubuntu-Bold',
+      fontSize: 18,
+      lineHeight: 18,
+      color: '#535353'
+  },
+  dropdown: {
+      width: 137,
+      height: 46,
+      borderColor: '#E3E3E3',
+      borderWidth: 5,
+      borderRadius: 25,
+      paddingHorizontal: 8,
+  },
+  arrow_down: {
+      width: 27,
+      height: 18,
+  },
+  itemContainer: {
+      padding: 0,
+      margin: 0,
+  },
+  dropdownListContainer: {
+      backgroundColor: '#fff',
+      borderRadius: 12,
+      marginTop: 5,
+      paddingVertical: 0,
+      overflow: 'hidden',
+  },
+    listContentContainer: {
+      padding: 0,
+  },
+  chartContainer: {
+      flex: 1
+  },
+  scrollContent: {
+      flexGrow: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingVertical: 20,
+  },
+  chart: {
+      marginTop: 20,
+  },
+  bottomHalf: {
+      flex: 1,
+      backgroundColor: '#6EDB71',
+      borderWidth: 3,
+      borderBottomWidth: 0,
+      borderColor: '#54AB57',
+      justifyContent: 'center',
+      alignItems: 'center'
+  },
+  statsText: {
+      fontFamily: 'Ubuntu-Bold',
+      fontSize: 30,
+      lineHeight: 35,
+      letterSpacing: 0,
+      color: '#fff'
+  },
+  statsItem: {
+      marginBottom: 25,
+  }
 })
 
 export default StatsScreen;

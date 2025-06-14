@@ -1,17 +1,12 @@
-import { Image, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, Platform, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
-import { useLanguage } from './utils/LanguageContext';
-import { useEffect, useState } from "react";
+import { useLanguage } from './contexts/LanguageContext';
+import { useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { setNavigationBarColor } from "./utils/navigationBar";
 
 export default function SettingsScreen(){
-  useEffect(() => {
-      setNavigationBarColor('#E1E1E1');
-  });
 
   const router = useRouter();
-  const insets = useSafeAreaInsets();
   const { t, toggleLanguage, language } = useLanguage();
   const [distanceUnit, setDistanceUnit] = useState<'km' | 'm'>('km');
 
@@ -25,7 +20,7 @@ export default function SettingsScreen(){
   };
 
   return (
-    <View style={[styles.container, {paddingTop: insets.top, paddingBottom: insets.bottom}]}>
+    <View style={styles.container}>
       <StatusBar backgroundColor={'#E1E1E1'}/>
       <Pressable
         onPress={() => router.back()}
@@ -70,7 +65,9 @@ export default function SettingsScreen(){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    marginBottom: Platform.OS === 'android' ? 24 : 0
   },
   backButton: {
     width: 30,

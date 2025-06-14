@@ -4,7 +4,7 @@ import { ImageBackground, Platform, Pressable, StatusBar, StyleSheet, Text, Text
 import { useRouter } from 'expo-router';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as SystemUI from 'expo-system-ui';
-import { useLanguage } from './utils/LanguageContext';
+import { useLanguage } from './contexts/LanguageContext';
 
 SystemUI.setBackgroundColorAsync('#E1E1E1');
 
