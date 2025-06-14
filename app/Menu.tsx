@@ -3,6 +3,7 @@ import { Image, ImageBackground, Platform, Pressable, StatusBar, StyleSheet, Tex
 import { useRouter } from 'expo-router';
 import { useLanguage } from './contexts/LanguageContext';
 import { useCoins } from './contexts/CoinsContext';
+import { Avatar } from './components/Avatar';
 
 export default function Menu(){
     const router = useRouter();
@@ -34,7 +35,6 @@ export default function Menu(){
                             <Image
                                 source={require('../assets/images/Menu/settings_icon.png')}
                                 style={[styles.settingsIcon, { opacity: pressed ? 0.8 : 1 }]}
-                                resizeMode="center"
                             />
                         )}
                     </Pressable>
@@ -55,7 +55,7 @@ export default function Menu(){
                     style={styles.bodyBackground}
                     resizeMode='contain'
                 >
-                    <Image source={require('../assets/images/Clothes/avatar-with-eyes.png')} style={styles.avatar}/>
+                    <Avatar/>
                 </ImageBackground>
             </View>
             <View style={styles.footer}>
@@ -261,12 +261,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'relative'
     },
+
+    // Стили для старого (статичного) аватара
     avatar: {
         width: 245.8,
         height: 440,
         position: 'absolute',
         bottom: -60,
     },
+    //
+
     footer: {
         flex: 1,
         backgroundColor: '#6EDB71',

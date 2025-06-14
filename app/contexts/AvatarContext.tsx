@@ -5,14 +5,24 @@ type AvatarContextType = {
   outfit: AvatarOutfit;
   inventory: ClothingItem[];
   equipItem: (item: ClothingItem) => void;
-  unequipItem: (category: ClothingCategory) => void; // Добавляем новую функцию
+  unequipItem: (category: ClothingCategory) => void;
   purchaseItem: (item: ClothingItem) => void;
 };
 
-const defaultOutfit: AvatarOutfit = {
+// Предмет по умолчанию (winking face из магазина)
+const defaultFace: ClothingItem = {
+  id: '9',
+  price: 150,
+  image: require('../../assets/images/Clothes/face-winking.png'),
+  category: 'face',
+  equipped: true
+};
+
+// Начальный набор с face по умолчанию
+const initialOutfit: AvatarOutfit = {
   handband: null,
   hairstyle: null,
-  face: null,
+  face: defaultFace, // Устанавливаем face по умолчанию
   accessory: null,
   faceDetails: null,
   shirt: null,
@@ -21,9 +31,12 @@ const defaultOutfit: AvatarOutfit = {
   highShoes: null
 };
 
+// Начальный инвентарь с предметом по умолчанию
+const initialInventory: ClothingItem[] = [defaultFace];
+
 const AvatarContext = createContext<AvatarContextType>({
-  outfit: defaultOutfit,
-  inventory: [],
+  outfit: initialOutfit,
+  inventory: initialInventory,
   equipItem: () => {},
   unequipItem: () => {},
   purchaseItem: () => {},
@@ -34,8 +47,8 @@ type AvatarProviderProps = {
 };
 
 export const AvatarProvider = ({ children }: AvatarProviderProps) => {
-  const [outfit, setOutfit] = useState<AvatarOutfit>(defaultOutfit);
-  const [inventory, setInventory] = useState<ClothingItem[]>([]);
+  const [outfit, setOutfit] = useState<AvatarOutfit>(initialOutfit);
+  const [inventory, setInventory] = useState<ClothingItem[]>(initialInventory);
 
   const equipItem = (item: ClothingItem) => {
     setOutfit(prev => ({
