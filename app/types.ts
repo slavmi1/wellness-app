@@ -11,3 +11,17 @@ export type ClothingItem = {
 export type AvatarOutfit = {
   [key in ClothingCategory]: ClothingItem | null;
 };
+
+export type Person = {
+  id: string;
+  name: string;
+  lvl: number;
+  picture: any;
+}
+
+export type Achievement = {
+  id: string;
+  text: string;
+  reward: number;
+  done: boolean;
+}

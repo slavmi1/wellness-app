@@ -244,7 +244,6 @@ const styles = StyleSheet.create({
       height: 32
   },
   statsButton: {
-    width: 197,
     height: 66,
     borderWidth: 5,
     borderColor: '#E3E3E3',

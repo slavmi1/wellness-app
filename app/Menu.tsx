@@ -17,7 +17,7 @@ export default function Menu(){
                 <View style={styles.headerTables}>
                     <View style={ styles.lvlTable}>
                         <Image style={styles.lvlIcon} source={require('../assets/images/Menu/lvl_icon.png')}/>
-                        <Text style={styles.headerText}>13 LVL</Text>
+                        <Text style={styles.headerText}>1 LVL</Text>
                     </View>
                     <View style={ styles.coinsTable}>
                         <Text style={styles.headerText}>{coins}</Text>
