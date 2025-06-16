@@ -13,7 +13,7 @@ const RatingScreen = () => {
     { id: '2', name: 'alexstampl', lvl: 45, picture: require('../assets/images/Rating/user_icon_5.png')},
     { id: '3', name: 'krrrr_17', lvl: 20, picture: require('../assets/images/Rating/user_icon_1.png')},
     { id: '5', name: 'ANDYSITUS', lvl: 12, picture: require('../assets/images/Rating/user_icon_2.png')},
-    { id: '1', name: 'slavmi1', lvl: 1, picture: require('../assets/images/Rating/user_icon_4.png')},
+    { id: '1', name: 'slavmi1', lvl: 3, picture: require('../assets/images/Rating/user_icon_4.png')},
   ];
 
   const handleFindMe = () => {
@@ -167,7 +167,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderWidth: 5,
     borderColor: '#54AB57',
-    borderRadius: 20
+    borderRadius: 20,
+    // Тень для iOS
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    // Тень для Android
+    elevation: 4
   },
   highlightedPerson: {
     borderColor: '#FF9F39', // Оранжевый цвет для подсветки

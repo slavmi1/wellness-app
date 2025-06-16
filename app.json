@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.slavmi1.wellnessapp"
     },
     "web": {
       "bundler": "metro",
@@ -36,12 +37,21 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/fonts/PassionOne-Regular.ttf"]
+          "fonts": [
+            "./assets/fonts/PassionOne-Regular.ttf"
+          ]
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "cfa05d13-e294-4617-82a8-38fd02661c52"
+      }
+    },
+    "owner": "slavmi1"
   }
 }

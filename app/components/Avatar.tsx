@@ -126,13 +126,13 @@ const styles = StyleSheet.create({
   lowShoes: {
     zIndex: 2,
     width: 69,
-    top: screenHeight - 630,
+    top: screenHeight - 675,
     left: 75
   },
   highShoes: {
     zIndex: 2,
     width: 70.2,
-    top: screenHeight - 630,
+    top: screenHeight - 680,
     left: 74
   }
 });

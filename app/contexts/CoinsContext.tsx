@@ -20,7 +20,7 @@ type CoinsProviderProps = {
 };
 
 export const CoinsProvider = ({ children }: CoinsProviderProps) => {
-  const [coins, setCoins] = useState(99999);
+  const [coins, setCoins] = useState(1000);
 
   const addCoins = (amount: number) => {
     setCoins(prev => prev + amount);
