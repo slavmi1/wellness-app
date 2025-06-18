@@ -2,7 +2,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import RegistrationSign from './SignUp';
-import { LanguageProvider } from './utils/LanguageContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 
 SplashScreen.preventAutoHideAsync();
 

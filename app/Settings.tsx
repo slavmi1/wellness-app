@@ -1,23 +1,21 @@
-import { Image, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import * as SystemUI from 'expo-system-ui';
 import { useRouter } from "expo-router";
-import { useLanguage } from './utils/LanguageContext';
 import { useState } from "react";
+import { Image, Platform, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useLanguage } from './contexts/LanguageContext';
 
-SystemUI.setBackgroundColorAsync('#E1E1E1');
+export default function SettingsScreen(){
 
-const SettingsScreen = () => {
   const router = useRouter();
   const { t, toggleLanguage, language } = useLanguage();
-  const [distanceUnit, setDistanceUnit] = useState<'km' | 'm'>('km');
+  const [distanceUnit, setDistanceUnit] = useState<'km' | 'mi'>('km');
 
   const distanceTexts = {
-    ru: distanceUnit === 'km' ? 'км' : 'м',
+    ru: distanceUnit === 'km' ? 'км' : 'мили',
     en: distanceUnit
   };
 
   const toggleDistanceUnit = () => {
-    setDistanceUnit(prev => prev === 'km' ? 'm' : 'km');
+    setDistanceUnit(prev => prev === 'km' ? 'mi' : 'km');
   };
 
   return (
@@ -66,7 +64,9 @@ const SettingsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    marginBottom: Platform.OS === 'android' ? 24 : 0
   },
   backButton: {
     width: 30,
@@ -154,5 +154,3 @@ const styles = StyleSheet.create({
     color: '#535353'
   }
 });
-
-export default SettingsScreen;

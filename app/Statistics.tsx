@@ -1,194 +1,223 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
-import { Accelerometer } from 'expo-sensors';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Subscription } from 'expo-sensors/build/DeviceSensor';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { Dimensions, Image, Platform, Pressable, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { BarChart } from 'react-native-chart-kit';
+import { Dropdown } from 'react-native-element-dropdown';
+import { useLanguage } from './contexts/LanguageContext';
 
-// Тип для данных акселерометра
-type Acceleration = {
-  x: number;
-  y: number;
-  z: number;
-};
+interface RunStats {
+  dateRange: string;
+  totalDistance: number;
+  bestDay: string;
+  bestDistance: number;
+}
 
-// Тип для записи истории
-type HistoryRecord = {
-  id: string;
-  date: string;
-  steps: number;
-  distance: number;
-  duration: string;
-};
+const StatsScreen = () => {
+  const { t, getDayName, getMonthName } = useLanguage();
+  const router = useRouter();
+  const [value, setValue] = useState('week');
+  const [isFocus, setIsFocus] = useState(false);
+  const [statsData, setStatsData] = useState<RunStats>({
+    dateRange: `12 - 18 ${getMonthName(4)} 2025`,
+    totalDistance: 20.1,
+    bestDay: getDayName(5), // Пятница
+    bestDistance: 8
+  });
 
-export default function PedometerApp() {
-  const [isMeasuring, setIsMeasuring] = useState(false);
-  const [steps, setSteps] = useState(0);
-  const [distance, setDistance] = useState(0);
-  const [lastAcceleration, setLastAcceleration] = useState<Acceleration | null>(null);
-  const [startTime, setStartTime] = useState<Date | null>(null);
-  const [history, setHistory] = useState<HistoryRecord[]>([]);
-  
-  // Средняя длина шага в метрах
-  const stepLength = 0.7;
+  const screenWidth = Dimensions.get('window').width;
 
-  // Загружаем историю при монтировании
-  useEffect(() => {
-    loadHistory();
-  }, []);
-
-  const loadHistory = async () => {
-    try {
-      const savedHistory = await AsyncStorage.getItem('pedometerHistory');
-      if (savedHistory) {
-        setHistory(JSON.parse(savedHistory));
-      }
-    } catch (error) {
-      console.error('Ошибка загрузки истории:', error);
+  // Локализованные данные для графиков
+  const dataSets = {
+    week: {
+      labels: [
+        getDayName(0, true), // Пн
+        getDayName(1, true), // Вт
+        getDayName(2, true), // Ср
+        getDayName(3, true), // Чт
+        getDayName(4, true), // Пт
+        getDayName(5, true), // Сб
+        getDayName(6, true)  // Вс
+      ],
+      datasets: [{ data: [5, 7, 4, 8, 6, 9, 10] }]
+    },
+    month: {
+      labels: [
+        t('week') + ' 1',
+        t('week') + ' 2',
+        t('week') + ' 3',
+        t('week') + ' 4'
+      ],
+      datasets: [{ data: [25, 30, 28, 35] }]
+    },
+    year: {
+      labels: [
+        getMonthName(0, true), // Янв
+        getMonthName(1, true), // Фев
+        getMonthName(2, true), // Мар
+        getMonthName(3, true), // Апр
+        getMonthName(4, true), // Май
+        getMonthName(5, true), // Июн
+        getMonthName(6, true), // Июл
+        getMonthName(7, true), // Авг
+        getMonthName(8, true), // Сен
+        getMonthName(9, true), // Окт
+        getMonthName(10, true), // Ноя
+        getMonthName(11, true)  // Дек
+      ],
+      datasets: [{ data: [100, 120, 110, 130, 140, 150, 160, 170, 160, 180, 175, 190] }]
     }
   };
 
-  const saveHistory = async (newRecord: HistoryRecord) => {
-    try {
-      const updatedHistory = [newRecord, ...history];
-      await AsyncStorage.setItem('pedometerHistory', JSON.stringify(updatedHistory));
-      setHistory(updatedHistory);
-    } catch (error) {
-      console.error('Ошибка сохранения истории:', error);
-    }
+  const chartConfig = {
+    backgroundColor: '#FFFFFF',
+    backgroundGradientFrom: '#FFFFFF',
+    backgroundGradientTo: '#FFFFFF',
+    color: () => '#6EDB71',
+    labelColor: () => '#535353',
+    propsForLabels: {
+      fontSize: 12,
+      fontFamily: 'Ubuntu-Bold'
+    },
+    barPercentage: 0.8,
+    propsForBackgroundLines: {
+      strokeWidth: 1,
+      stroke: '#E3E3E3',
+      strokeDasharray: '0'
+    },
+    decimalPlaces: 0,
+    fillShadowGradient: '#6EDB71',
+    fillShadowGradientOpacity: 1
   };
 
-  useEffect(() => {
-    let subscription: Subscription | null = null;
+  const data = [
+    { label: t('week'), value: 'week' },
+    { label: t('month'), value: 'month' },
+    { label: t('year'), value: 'year' }
+  ];
+
+  const [chartData, setChartData] = useState(dataSets.week);
+
+  const handleDropdownChange = (item: { value: string }) => {
+    setValue(item.value);
+    setIsFocus(false);
+    setChartData(dataSets[item.value as keyof typeof dataSets]);
+  };
+
+  const chartWidth = Math.max(
+    screenWidth * 0.9,
+    chartData.labels.length * 50
+  );
+
+  // useEffect(() => {
+  //   const fetchStats = async () => {
+  //     try {
+  //       const response = await fetch('your-api-endpoint');
+  //       const data = await response.json();
+  //       setStatsData({
+  //         ...data,
+  //         bestDay: getDayName(new Date(data.bestDay).getDay())
+  //       });
+  //     } catch (error) {
+  //       console.error('Error fetching stats:', error);
+  //     }
+  //   };
     
-    if (isMeasuring) {
-      subscription = Accelerometer.addListener(accelerometerData => {
-        const { x, y, z } = accelerometerData;
-        
-        if (lastAcceleration) {
-          const deltaX = Math.abs(x - lastAcceleration.x);
-          const deltaY = Math.abs(y - lastAcceleration.y);
-          const deltaZ = Math.abs(z - lastAcceleration.z);
-          
-          const acceleration = deltaX + deltaY + deltaZ;
-          
-          if (acceleration > 1.2) {
-            setSteps(prev => prev + 1);
-            setDistance(prev => prev + stepLength);
-          }
-        }
-        
-        setLastAcceleration({ x, y, z });
-      });
-      
-      Accelerometer.setUpdateInterval(100);
-    }
-    
-    return () => {
-      if (subscription) {
-        subscription.remove();
-      }
-    };
-  }, [isMeasuring, lastAcceleration]);
-
-  const startMeasuring = () => {
-    setSteps(0);
-    setDistance(0);
-    setStartTime(new Date());
-    setIsMeasuring(true);
-  };
-
-  const stopMeasuring = async () => {
-    setIsMeasuring(false);
-    
-    if (startTime) {
-      const endTime = new Date();
-      const durationMs = endTime.getTime() - startTime.getTime();
-      const durationStr = formatDuration(durationMs);
-      
-      const newRecord: HistoryRecord = {
-        id: Date.now().toString(),
-        date: endTime.toLocaleString(),
-        steps,
-        distance: parseFloat(distance.toFixed(2)),
-        duration: durationStr,
-      };
-      
-      await saveHistory(newRecord);
-    }
-  };
-
-  const formatDuration = (ms: number) => {
-    const seconds = Math.floor((ms / 1000) % 60);
-    const minutes = Math.floor((ms / (1000 * 60)) % 60);
-    const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
-    
-    return `${hours > 0 ? hours + 'ч ' : ''}${minutes > 0 ? minutes + 'м ' : ''}${seconds}с`;
-  };
-
-  const clearHistory = async () => {
-    try {
-      await AsyncStorage.removeItem('pedometerHistory');
-      setHistory([]);
-    } catch (error) {
-      console.error('Ошибка очистки истории:', error);
-    }
-  };
+  //   fetchStats();
+  // }, []);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Шагомер</Text>
-      
-      <View style={styles.dataContainer}>
-        <Text style={styles.dataText}>Шаги: {steps}</Text>
-        <Text style={styles.dataText}>Дистанция: {distance.toFixed(2)} м</Text>
-        <Text style={styles.dataText}>Статус: {isMeasuring ? 'Измерение...' : 'Остановлен'}</Text>
+      <View style={styles.topHalf}>
+        <View style={styles.header}>
+          <Pressable
+            onPress={() => router.back()}
+            style={styles.backButton}
+          >
+            {({ pressed }) => (
+              <Image
+                source={require('../assets/images/back_button.png')}
+                style={[styles.backIcon, {opacity: pressed ? 0.8 : 1}]}
+              />
+            )}
+          </Pressable>
+          <Text style={styles.headerText}>{t('sort_by')}</Text>
+          <View>
+            <Dropdown
+              style={[styles.dropdown, isFocus && { borderColor: '#54AB57' }]}
+              selectedTextStyle={styles.headerText}
+              data={data}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              value={value}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={handleDropdownChange}
+              renderRightIcon={() => (
+                <Image 
+                  source={require('../assets/images/Stats/arrow_down.png')} 
+                  style={[styles.arrow_down, isFocus && { transform: [{ rotate: '180deg' }] }]}
+                />
+              )}
+              itemTextStyle={styles.headerText}
+              activeColor='#E3E3E3'
+              containerStyle={styles.dropdownListContainer}
+              itemContainerStyle={styles.itemContainer}
+              flatListProps={{
+                contentContainerStyle: styles.listContentContainer
+              }}
+            />
+          </View>
+        </View>
+        <View style={styles.chartContainer}>
+          <ScrollView 
+            horizontal
+            showsHorizontalScrollIndicator={true}
+            style={{height: 250}}
+            contentContainerStyle={styles.scrollContent}
+          >
+            <BarChart
+              data={chartData}
+              width={chartWidth}
+              height={220}
+              chartConfig={chartConfig}
+              fromZero
+              showBarTops={false}
+              segments={6}
+              yAxisLabel=""
+              yAxisSuffix=""
+              style={styles.chart}
+            />
+          </ScrollView>
+        </View>
+      </View>
+      <View style={styles.bottomHalf}>
+        <StatsDisplay data={statsData} />
+      </View>
+    </View>
+  );
+};
+
+// Текст статичный, и не привязан к данным. Нужно редактировать
+const StatsDisplay = ({ data }: { data: RunStats }) => {
+  const { t } = useLanguage();
+  
+  return (
+    <View>
+      <View style={styles.statsItem}>
+        <Text style={styles.statsText}>{t('date')}</Text>
+        <Text style={styles.statsText}>{data.dateRange}</Text>
       </View>
       
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity 
-          style={[styles.button, styles.startButton]} 
-          onPress={startMeasuring}
-          disabled={isMeasuring}
-        >
-          <Text style={styles.buttonText}>Старт</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity 
-          style={[styles.button, styles.stopButton]} 
-          onPress={stopMeasuring}
-          disabled={!isMeasuring}
-        >
-          <Text style={styles.buttonText}>Стоп</Text>
-        </TouchableOpacity>
+      <View style={styles.statsItem}>
+        <Text style={styles.statsText}>{t('total_distance')}</Text>
+        <Text style={styles.statsText}>{data.totalDistance} {t('km')}</Text>
       </View>
-
-      <TouchableOpacity 
-        style={[styles.button, styles.clearButton]} 
-        onPress={clearHistory}
-        disabled={history.length === 0}
-      >
-        <Text style={styles.buttonText}>Очистить историю</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.historyTitle}>История измерений:</Text>
-      
-      {history.length > 0 ? (
-        <FlatList
-          style={styles.historyList}
-          data={history}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.historyItem}>
-              <Text style={styles.historyDate}>{item.date}</Text>
-              <Text>Шаги: {item.steps}</Text>
-              <Text>Дистанция: {item.distance} м</Text>
-              <Text>Длительность: {item.duration}</Text>
-            </View>
-          )}
-        />
-      ) : (
-        <Text style={styles.noHistoryText}>Нет сохраненных измерений</Text>
-      )}
+      <View>
+        <Text style={styles.statsText}>{t('best_distance')}</Text>
+        <Text style={styles.statsText}>({data.bestDay})</Text>
+        <Text style={styles.statsText}>{data.bestDistance} {t('km')}</Text>
+      </View>
     </View>
   );
 }
@@ -196,81 +225,94 @@ export default function PedometerApp() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    padding: 20,
+    color: 'fff',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    paddingBottom: Platform.OS === 'android' ? 24 : 0
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+  topHalf: {
+    flex: 1,
+    backgroundColor: '#fff'
   },
-  dataContainer: {
-    marginBottom: 20,
-    alignItems: 'center',
-    width: '100%',
-    padding: 15,
-    backgroundColor: '#f5f5f5',
-    borderRadius: 10,
-  },
-  dataText: {
-    fontSize: 16,
-    marginBottom: 8,
-  },
-  buttonsContainer: {
+  header: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    marginBottom: 20,
-  },
-  button: {
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 8,
-    minWidth: 100,
+    justifyContent: 'space-between',
     alignItems: 'center',
-    elevation: 2,
+    margin: 20,
+    marginBottom: 0
   },
-  startButton: {
-    backgroundColor: '#4CAF50',
+  backButton: {
+    width: 30,
+    height: 32,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  stopButton: {
-    backgroundColor: '#F44336',
+  backIcon: {
+    width: 22,
+    height: 32
   },
-  clearButton: {
-    backgroundColor: '#607D8B',
-    marginBottom: 20,
-    width: '80%',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  historyTitle: {
+  headerText: {
+    fontFamily: 'Ubuntu-Bold',
     fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    alignSelf: 'flex-start',
+    lineHeight: 18,
+    color: '#535353'
   },
-  historyList: {
-    width: '100%',
+  dropdown: {
+    width: 137,
+    height: 46,
+    borderColor: '#E3E3E3',
+    borderWidth: 5,
+    borderRadius: 25,
+    paddingHorizontal: 8,
   },
-  historyItem: {
-    backgroundColor: '#f9f9f9',
-    padding: 15,
-    marginBottom: 10,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#eee',
+  arrow_down: {
+    width: 27,
+    height: 18,
   },
-  historyDate: {
-    fontWeight: 'bold',
-    marginBottom: 5,
-    color: '#333',
+  itemContainer: {
+    padding: 0,
+    margin: 0,
   },
-  noHistoryText: {
-    color: '#888',
-    fontStyle: 'italic',
+  dropdownListContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    marginTop: 5,
+    paddingVertical: 0,
+    overflow: 'hidden',
   },
-});
+  listContentContainer: {
+    padding: 0,
+  },
+  chartContainer: {
+    flex: 1
+  },
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
+  chart: {
+    marginTop: 20,
+  },
+  bottomHalf: {
+    flex: 1,
+    backgroundColor: '#6EDB71',
+    borderWidth: 3,
+    borderBottomWidth: 0,
+    borderColor: '#54AB57',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  statsText: {
+    fontFamily: 'Ubuntu-Bold',
+    fontSize: 30,
+    lineHeight: 35,
+    letterSpacing: 0,
+    color: '#fff'
+  },
+  statsItem: {
+    marginBottom: 25,
+  }
+})
+
+export default StatsScreen;
