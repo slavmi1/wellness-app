@@ -213,7 +213,6 @@ const StatsDisplay = ({ data }: { data: RunStats }) => {
         <Text style={styles.statsText}>{t('total_distance')}</Text>
         <Text style={styles.statsText}>{data.totalDistance} {t('km')}</Text>
       </View>
-      
       <View>
         <Text style={styles.statsText}>{t('best_distance')}</Text>
         <Text style={styles.statsText}>({data.bestDay})</Text>
@@ -221,7 +220,7 @@ const StatsDisplay = ({ data }: { data: RunStats }) => {
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -231,88 +230,88 @@ const styles = StyleSheet.create({
     paddingBottom: Platform.OS === 'android' ? 24 : 0
   },
   topHalf: {
-      flex: 1,
-      backgroundColor: '#fff'
+    flex: 1,
+    backgroundColor: '#fff'
   },
   header: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      margin: 20,
-      marginBottom: 0
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: 20,
+    marginBottom: 0
   },
   backButton: {
-      width: 30,
-      height: 32,
-      justifyContent: 'center',
-      alignItems: 'center'
+    width: 30,
+    height: 32,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   backIcon: {
-      width: 22,
-      height: 32
+    width: 22,
+    height: 32
   },
   headerText: {
-      fontFamily: 'Ubuntu-Bold',
-      fontSize: 18,
-      lineHeight: 18,
-      color: '#535353'
+    fontFamily: 'Ubuntu-Bold',
+    fontSize: 18,
+    lineHeight: 18,
+    color: '#535353'
   },
   dropdown: {
-      width: 137,
-      height: 46,
-      borderColor: '#E3E3E3',
-      borderWidth: 5,
-      borderRadius: 25,
-      paddingHorizontal: 8,
+    width: 137,
+    height: 46,
+    borderColor: '#E3E3E3',
+    borderWidth: 5,
+    borderRadius: 25,
+    paddingHorizontal: 8,
   },
   arrow_down: {
-      width: 27,
-      height: 18,
+    width: 27,
+    height: 18,
   },
   itemContainer: {
-      padding: 0,
-      margin: 0,
+    padding: 0,
+    margin: 0,
   },
   dropdownListContainer: {
-      backgroundColor: '#fff',
-      borderRadius: 12,
-      marginTop: 5,
-      paddingVertical: 0,
-      overflow: 'hidden',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    marginTop: 5,
+    paddingVertical: 0,
+    overflow: 'hidden',
   },
-    listContentContainer: {
-      padding: 0,
+  listContentContainer: {
+    padding: 0,
   },
   chartContainer: {
-      flex: 1
+    flex: 1
   },
   scrollContent: {
-      flexGrow: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingVertical: 20,
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 20,
   },
   chart: {
-      marginTop: 20,
+    marginTop: 20,
   },
   bottomHalf: {
-      flex: 1,
-      backgroundColor: '#6EDB71',
-      borderWidth: 3,
-      borderBottomWidth: 0,
-      borderColor: '#54AB57',
-      justifyContent: 'center',
-      alignItems: 'center'
+    flex: 1,
+    backgroundColor: '#6EDB71',
+    borderWidth: 3,
+    borderBottomWidth: 0,
+    borderColor: '#54AB57',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   statsText: {
-      fontFamily: 'Ubuntu-Bold',
-      fontSize: 30,
-      lineHeight: 35,
-      letterSpacing: 0,
-      color: '#fff'
+    fontFamily: 'Ubuntu-Bold',
+    fontSize: 30,
+    lineHeight: 35,
+    letterSpacing: 0,
+    color: '#fff'
   },
   statsItem: {
-      marginBottom: 25,
+    marginBottom: 25,
   }
 })
 
