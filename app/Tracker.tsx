@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Image, StyleSheet, Text, View, TouchableOpacity, FlatList, StatusBar, Platform, Pressable } from 'react-native';
-import { Accelerometer } from 'expo-sensors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Subscription } from 'expo-sensors/build/DeviceSensor';
 import { useRouter } from 'expo-router';
+import { Accelerometer } from 'expo-sensors';
+import { Subscription } from 'expo-sensors/build/DeviceSensor';
+import React, { useEffect, useState } from 'react';
+import { FlatList, Image, Platform, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useLanguage } from './contexts/LanguageContext';
 
 // Тип для данных акселерометра
 type Acceleration = {
@@ -23,6 +24,7 @@ type HistoryRecord = {
 
 export default function PedometerApp() {
   const router = useRouter();
+  const { t, language, distanceUnit } = useLanguage(); 
 
   const [isMeasuring, setIsMeasuring] = useState(false);
   const [steps, setSteps] = useState(0);
@@ -137,6 +139,15 @@ export default function PedometerApp() {
     }
   };
 
+  const formatDistance = (meters: number) => {
+    if (distanceUnit === 'km') {
+      return `${(meters / 1000).toFixed(2)} ${t('kilometers')}`;
+    } else if (distanceUnit === 'mi') {
+      return `${(meters / 1609.34).toFixed(2)} ${t('miles')}`;
+    }
+    return `${meters.toFixed(2)} ${t('meters')}`;
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -156,14 +167,15 @@ export default function PedometerApp() {
           style={styles.statsButton}
         >
           {({ pressed }) => (
-            <Text style={[styles.text, {opacity: pressed ? 0.8 : 1}]}>Статистика</Text>
+            <Text style={[styles.text, {opacity: pressed ? 0.8 : 1}]}>{t('statistics')}</Text>
           )}
         </Pressable>
       </View>
+      
       <View style={styles.dataContainer}>
-        <Text style={styles.dataText}>Шаги: {steps}</Text>
-        <Text style={styles.dataText}>Дистанция: {distance.toFixed(2)} м</Text>
-        <Text style={styles.dataText}>Статус: {isMeasuring ? 'Измерение...' : 'Остановлен'}</Text>
+        <Text style={[styles.text, { paddingBottom: 10 }]}>{t('steps')}: {steps}</Text>
+        <Text style={[styles.text, { paddingBottom: 10 }]}>{t('distance')}: {formatDistance(distance)}</Text>
+        <Text style={[styles.text, { paddingBottom: 10 }]}>{t('status')}: {isMeasuring ? t('measuring') : t('stopped')}</Text>
       </View>
       
       <View style={styles.buttonsContainer}>
@@ -172,7 +184,7 @@ export default function PedometerApp() {
           onPress={startMeasuring}
           disabled={isMeasuring}
         >
-          <Text style={styles.buttonText}>Старт</Text>
+          <Text style={styles.buttonText}>{t('start')}</Text>
         </TouchableOpacity>
         
         <TouchableOpacity 
@@ -180,7 +192,7 @@ export default function PedometerApp() {
           onPress={stopMeasuring}
           disabled={!isMeasuring}
         >
-          <Text style={styles.buttonText}>Стоп</Text>
+          <Text style={styles.buttonText}>{t('stop')}</Text>
         </TouchableOpacity>
       </View>
 
@@ -189,10 +201,10 @@ export default function PedometerApp() {
         onPress={clearHistory}
         disabled={history.length === 0}
       >
-        <Text style={styles.buttonText}>Очистить историю</Text>
+        <Text style={styles.buttonText}>{t('clear_history')}</Text>
       </TouchableOpacity>
 
-      <Text style={styles.historyTitle}>История измерений:</Text>
+      <Text style={styles.historyTitle}>{t('measurement_history')}:</Text>
       
       {history.length > 0 ? (
         <FlatList
@@ -202,14 +214,14 @@ export default function PedometerApp() {
           renderItem={({ item }) => (
             <View style={styles.historyItem}>
               <Text style={styles.historyDate}>{item.date}</Text>
-              <Text>Шаги: {item.steps}</Text>
-              <Text>Дистанция: {item.distance} м</Text>
-              <Text>Длительность: {item.duration}</Text>
+              <Text style={[styles.historyText, {marginBottom: 5}]}>{t('steps')}: {item.steps}</Text>
+              <Text style={[styles.historyText, {marginBottom: 5}]}>{t('distance')}: {formatDistance(item.distance)}</Text>
+              <Text style={styles.historyText}>{t('duration')}: {item.duration}</Text>
             </View>
           )}
         />
       ) : (
-        <Text style={styles.noHistoryText}>Нет сохраненных измерений</Text>
+        <Text style={styles.historyText}>{t('no_saved_measurements')}</Text>
       )}
     </View>
   );
@@ -275,37 +287,38 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    gap: 20,
     width: '100%',
     marginBottom: 20,
   },
   button: {
     paddingVertical: 12,
     paddingHorizontal: 25,
-    borderRadius: 8,
-    minWidth: 100,
+    borderRadius: 20,
+    width: 175,
     alignItems: 'center',
     elevation: 2,
   },
   startButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#6EDB71',
   },
   stopButton: {
-    backgroundColor: '#F44336',
+    backgroundColor: '#F83A3A',
   },
   clearButton: {
-    backgroundColor: '#607D8B',
+    backgroundColor: '#B1B1B1',
     marginBottom: 20,
-    width: '80%',
+    width: '100%'
   },
   buttonText: {
+    fontFamily: 'Ubuntu-Bold',
     color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 30,
   },
   historyTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily: 'Ubuntu-Bold',
+    fontSize: 30,
+    color: '#535353',
     marginBottom: 10,
     alignSelf: 'flex-start',
   },
@@ -321,12 +334,14 @@ const styles = StyleSheet.create({
     borderColor: '#eee',
   },
   historyDate: {
-    fontWeight: 'bold',
-    marginBottom: 5,
-    color: '#333',
+    color: '#535353',
+    fontFamily: 'Ubuntu-Bold',
+    fontSize: 22,
+    marginBottom: 15,
   },
-  noHistoryText: {
-    color: '#888',
-    fontStyle: 'italic',
+  historyText: {
+    color: '#535353',
+    fontFamily: 'Ubuntu-Bold',
+    fontSize: 20
   },
 });

@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "wellness-app",
-    "slug": "wellness-app",
+    "name": "wellness-17",
+    "slug": "wellness-17",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "wellness17",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -16,7 +16,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.slavmi1.wellnessapp"
+      "edgeToEdgeEnabled": true
     },
     "web": {
       "bundler": "metro",
@@ -33,25 +33,10 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ],
-      [
-        "expo-font",
-        {
-          "fonts": [
-            "./assets/fonts/PassionOne-Regular.ttf"
-          ]
-        }
       ]
     ],
     "experiments": {
       "typedRoutes": true
-    },
-    "extra": {
-      "router": {},
-      "eas": {
-        "projectId": "cfa05d13-e294-4617-82a8-38fd02661c52"
-      }
-    },
-    "owner": "slavmi1"
+    }
   }
 }

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StatusBar, Image, Pressable, ScrollView, Dimensions, StyleSheet, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Dropdown } from 'react-native-element-dropdown';
+import React, { useState } from 'react';
+import { Dimensions, Image, Platform, Pressable, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
+import { Dropdown } from 'react-native-element-dropdown';
 import { useLanguage } from './contexts/LanguageContext';
 
 interface RunStats {
@@ -108,22 +108,22 @@ const StatsScreen = () => {
     chartData.labels.length * 50
   );
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const response = await fetch('your-api-endpoint');
-        const data = await response.json();
-        setStatsData({
-          ...data,
-          bestDay: getDayName(new Date(data.bestDay).getDay())
-        });
-      } catch (error) {
-        console.error('Error fetching stats:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchStats = async () => {
+  //     try {
+  //       const response = await fetch('your-api-endpoint');
+  //       const data = await response.json();
+  //       setStatsData({
+  //         ...data,
+  //         bestDay: getDayName(new Date(data.bestDay).getDay())
+  //       });
+  //     } catch (error) {
+  //       console.error('Error fetching stats:', error);
+  //     }
+  //   };
     
-    fetchStats();
-  }, []);
+  //   fetchStats();
+  // }, []);
 
   return (
     <View style={styles.container}>

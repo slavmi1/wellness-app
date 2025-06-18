@@ -1,9 +1,9 @@
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { Image, ImageBackground, Platform, Pressable, StatusBar, StyleSheet, Text, View } from "react-native";
-import { useRouter } from 'expo-router';
-import { useLanguage } from './contexts/LanguageContext';
-import { useCoins } from './contexts/CoinsContext';
 import { Avatar } from './components/Avatar';
+import { useCoins } from './contexts/CoinsContext';
+import { useLanguage } from './contexts/LanguageContext';
 
 export default function Menu(){
     const router = useRouter();
@@ -53,7 +53,7 @@ export default function Menu(){
                 </View>
                 <ImageBackground source={require('../assets/images/Menu/body_background.png')}
                     style={styles.bodyBackground}
-                    resizeMode='contain'
+                    resizeMode='cover'
                 >
                     <Avatar/>
                 </ImageBackground>
@@ -70,18 +70,10 @@ export default function Menu(){
                                     { opacity: pressed ? 0.8 : 1 }
                                 ]}
                             >
-                                <View style={styles.statsContainer}>
+                                <View style={styles.workoutContainer}>
                                     <Image 
-                                        source={require('../assets/images/Menu/stats_1.png')} 
-                                        style={styles.statsIcon1}
-                                    />
-                                    <Image 
-                                        source={require('../assets/images/Menu/stats_2.png')} 
-                                        style={styles.statsIcon2}
-                                    />
-                                    <Image 
-                                        source={require('../assets/images/Menu/stats_3.png')} 
-                                        style={styles.statsIcon3}
+                                        source={require('../assets/images/Menu/workout_icon.png')} 
+                                        style={styles.workoutIcon}
                                     />
                                 </View>
                             </Pressable>
@@ -143,7 +135,7 @@ export default function Menu(){
                                 adjustsFontSizeToFit
                                 minimumFontScale={0.7}
                             >
-                                {t('progress')}
+                                {t('achievements')}
                             </Text>
                         </View>
                     </View>
@@ -214,7 +206,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'Ubuntu-Bold',
         fontSize: 30,
-        letterSpacing: -1.5,
+        letterSpacing: 0,
     },
     body: {
         flex: 4.5,
@@ -235,7 +227,6 @@ const styles = StyleSheet.create({
         borderWidth: 5,
         borderColor: '#E3E3E3',
         borderRadius: 25,
-        marginLeft: 14
     },
     settingsIcon: {
         width: 39,
@@ -248,8 +239,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 5,
         borderColor: '#E3E3E3',
-        borderRadius: 25,
-        marginRight: 14
+        borderRadius: 25
     },
     shopIcon: {
         width: 54,
@@ -259,29 +249,20 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 403.33,
         alignItems: 'center',
-        position: 'relative'
+        position: 'relative',
+        marginTop: 17,
+        paddingTop: 80,
     },
-
-    // Стили для старого (статичного) аватара
-    avatar: {
-        width: 245.8,
-        height: 440,
-        position: 'absolute',
-        bottom: -60,
-    },
-    //
-
     footer: {
         flex: 1,
         backgroundColor: '#6EDB71',
         borderTopWidth: 3,
         borderColor: '#54AB57',
-        paddingTop: 10,
-        paddingBottom: 20,
     },
     footerContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'flex-start',
         height: '100%'
     },
     buttonGroup: {
@@ -291,7 +272,7 @@ const styles = StyleSheet.create({
     },
     buttonContent: {
         height: '100%',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
         paddingBottom: 5,
     },
@@ -306,25 +287,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 0,
     },
-    statsContainer: {
-        flexDirection: 'row',
-        alignItems: 'flex-end',
+    workoutContainer: {
         height: 45,
         justifyContent: 'center',
+        alignItems: 'center'
     },
-    statsIcon1: {
-        width: 10,
-        height: 25,
-        marginRight: 5,
-    },
-    statsIcon2: {
-        width: 10,
-        height: 35,
-        marginRight: 5,
-    },
-    statsIcon3: {
-        width: 10,
-        height: 45,
+    workoutIcon: {
+        width: 72,
+        height: 72
     },
     ratingIcon: {
         width: 40,
@@ -341,7 +311,5 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         width: '100%',
         paddingHorizontal: 5,
-        position: 'absolute',
-        bottom: 0,
     },
 });

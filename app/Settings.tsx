@@ -1,22 +1,21 @@
-import { Image, Platform, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
-import { useLanguage } from './contexts/LanguageContext';
 import { useState } from "react";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Image, Platform, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useLanguage } from './contexts/LanguageContext';
 
 export default function SettingsScreen(){
 
   const router = useRouter();
   const { t, toggleLanguage, language } = useLanguage();
-  const [distanceUnit, setDistanceUnit] = useState<'km' | 'm'>('km');
+  const [distanceUnit, setDistanceUnit] = useState<'km' | 'mi'>('km');
 
   const distanceTexts = {
-    ru: distanceUnit === 'km' ? 'км' : 'м',
+    ru: distanceUnit === 'km' ? 'км' : 'мили',
     en: distanceUnit
   };
 
   const toggleDistanceUnit = () => {
-    setDistanceUnit(prev => prev === 'km' ? 'm' : 'km');
+    setDistanceUnit(prev => prev === 'km' ? 'mi' : 'km');
   };
 
   return (

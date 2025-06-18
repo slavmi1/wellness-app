@@ -1,16 +1,18 @@
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, FlatList, StyleSheet, Pressable, Platform, StatusBar, ImageBackground, Modal } from 'react-native';
+import { FlatList, Image, ImageBackground, Modal, Platform, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Avatar } from './components/Avatar';
 import { useAvatar } from './contexts/AvatarContext';
 import { useCoins } from './contexts/CoinsContext';
+import { useLanguage } from './contexts/LanguageContext';
 import { ClothingItem } from './types';
-import { Avatar } from './components/Avatar';
-import { useRouter } from 'expo-router';
 
 const ShopScreen = () => {
   const router = useRouter();
   const [selectedItem, setSelectedItem] = useState<ClothingItem | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [notEnoughCoinsItemId, setNotEnoughCoinsItemId] = useState<string | null>(null);
+  const { t } = useLanguage();
 
   const { coins, spendCoins } = useCoins();
   const { outfit, inventory, purchaseItem, equipItem, unequipItem } = useAvatar();
@@ -93,7 +95,7 @@ const ShopScreen = () => {
       {notEnoughCoinsItemId === item.id && (
         <View style={styles.notEnoughOverlay}>
           <View style={styles.notEnoughMessage}>
-            <Text style={styles.notEnoughText}>Недостаточно денег</Text>
+            <Text style={styles.notEnoughText}>{t('notenoughmoney')}</Text>
           </View>
         </View>
       )}
@@ -157,7 +159,7 @@ const ShopScreen = () => {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
-            <Text style={styles.modalText}>Купить?</Text>
+            <Text style={styles.modalText}>{t('buy')}?</Text>
             <View style={styles.modalButtons}>
               <TouchableOpacity 
                 style={styles.modalButton}

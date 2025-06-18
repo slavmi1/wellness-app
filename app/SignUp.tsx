@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { setNavigationBarColor } from './utils/navigationBar';
-import { ImageBackground, Platform, Pressable, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
-import { useRouter } from 'expo-router';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useRouter } from 'expo-router';
 import * as SystemUI from 'expo-system-ui';
+import React, { useEffect, useState } from 'react';
+import { ImageBackground, Platform, Pressable, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useLanguage } from './contexts/LanguageContext';
+import { setNavigationBarColor } from './utils/navigationBar';
 
 SystemUI.setBackgroundColorAsync('#E1E1E1');
 
@@ -46,8 +46,8 @@ const RegistrationSign = () => {
             <StatusBar backgroundColor={'#E1E1E1'}/>
             <View style={styles.container}>
                 <Text style={styles.text}>{t('time_for_running')}</Text>
-                <Text style={{lineHeight: 16}}></Text>
-                <Text style={[styles.text, {width: 353, marginTop: 5, marginBottom: 20}]}>{t('sign_and_start')}</Text>
+                <Text style={{lineHeight: 30}}></Text>
+                <Text style={[styles.text, {width: 353, marginTop: 5, marginBottom: 24}]}>{t('sign_and_start')}</Text>
                 <TextInput 
                     placeholder={t('name')} 
                     placeholderTextColor={'#E3E3E3'} 
@@ -109,7 +109,9 @@ const RegistrationSign = () => {
 const styles = StyleSheet.create({
     background: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+        marginBottom: Platform.OS === 'android' ? 24 : 0
     },
     container: {
         flex: 1,

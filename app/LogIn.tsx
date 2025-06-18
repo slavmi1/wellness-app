@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { setNavigationBarColor } from './utils/navigationBar';
-import { ImageBackground, Pressable, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useRouter } from 'expo-router';
+import React, { useEffect } from 'react';
+import { ImageBackground, Platform, Pressable, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useLanguage } from './contexts/LanguageContext';
+import { setNavigationBarColor } from './utils/navigationBar';
 
 export default function RegistrationLog() {
     const { t } = useLanguage();
@@ -57,7 +57,9 @@ export default function RegistrationLog() {
 const styles = StyleSheet.create({
     background: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+        marginBottom: Platform.OS === 'android' ? 24 : 0
     },
     container: {
         flex: 1,
@@ -85,7 +87,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#5FBB62'
     },
     input: {
-        height: 60,
+        height: 50,
         width: '100%',
         maxWidth: '100%',
         marginBottom: 15,

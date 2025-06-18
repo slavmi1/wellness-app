@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, StyleSheet, Dimensions } from 'react-native';
+import { Dimensions, Image, StyleSheet, View } from 'react-native';
 import { useAvatar } from '../contexts/AvatarContext';
 
 const { height: screenHeight } = Dimensions.get('window')
@@ -126,13 +126,13 @@ const styles = StyleSheet.create({
   lowShoes: {
     zIndex: 2,
     width: 69,
-    top: screenHeight - 675,
+    top: screenHeight - 765,
     left: 75
   },
   highShoes: {
     zIndex: 2,
     width: 70.2,
-    top: screenHeight - 680,
+    top: screenHeight - 766,
     left: 74
   }
 });

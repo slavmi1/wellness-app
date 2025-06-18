@@ -1,12 +1,14 @@
 import { useRouter } from 'expo-router';
 import React, { useRef, useState } from 'react';
-import { Image, View, Text, StyleSheet, Pressable, Platform, StatusBar, FlatList } from 'react-native';
+import { FlatList, Image, Platform, Pressable, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { useLanguage } from './contexts/LanguageContext';
 import { Person } from './types';
 
 const RatingScreen = () => {
   const router = useRouter();
   const flatListRef = useRef<FlatList>(null);
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
+  const { t } = useLanguage();
 
   const leaderbord: Person[] = [
     { id: '4', name: 'CommGuy', lvl: 50, picture: require('../assets/images/Rating/user_icon_3.png')},
@@ -82,7 +84,7 @@ const RatingScreen = () => {
               <Text
                 style={[styles.findMeText, {opacity: pressed ? 0.8 : 1}]}
               >
-                Найти меня
+                {t('findme')}
               </Text>
             )}
           </Pressable>
@@ -206,8 +208,8 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   trophyContainer: {
-    width: 86,
-    height: '100%',
+    width: 85,
+    height: '100.1%', // для видео, были проблемы
     marginLeft: 'auto',
     backgroundColor: '#6EDB71',
     borderTopRightRadius: 15,
